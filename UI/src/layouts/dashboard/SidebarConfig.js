@@ -18,6 +18,11 @@ const sidebarConfig = [
     icon: getIcon(pieChart2Fill)
   },
   {
+    title: 'Fraud Detection',
+    path: '/fraud-detection',
+    icon: getIcon(alertTriangleFill)
+  },
+  {
     title: 'user',
     path: '/dashboard/user',
     icon: getIcon(peopleFill)
@@ -42,11 +47,12 @@ const sidebarConfig = [
     path: '/register',
     icon: getIcon(personAddFill)
   },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: getIcon(alertTriangleFill)
-  }
+  
+  // {
+  //   title: 'Not found',
+  //   path: '/404',
+  //   icon: getIcon(alertTriangleFill)
+  // }
 ];
 
 export default sidebarConfig;
