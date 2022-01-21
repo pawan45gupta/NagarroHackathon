@@ -9,6 +9,7 @@ import DashboardApp from './pages/DashboardApp';
 import Products from './pages/Products';
 import Blog from './pages/Blog';
 import User from './pages/User';
+import Campaign from './pages/Campaign';
 import NotFound from './pages/Page404';
 import { AppFraudDetection } from './components/_dashboard/app';
 
@@ -23,6 +24,7 @@ export default function Router() {
         { element: <Navigate to="/dashboard/app" replace /> },
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
+        { path: 'Campaign', element: <Campaign /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> }
       ]
@@ -39,6 +41,6 @@ export default function Router() {
         { path: '*', element: <Navigate to="/404" /> }
       ]
     },
-    { path: '*', element: <Navigate to="/404" replace /> }
+    // { path: '*', element: <Navigate to="/404" replace /> }
   ]);
 }
