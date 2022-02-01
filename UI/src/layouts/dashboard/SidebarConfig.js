@@ -24,15 +24,20 @@ const sidebarConfig = [
     icon: getIcon(alertTriangleFill)
   },
   {
+    title: 'Send Campaign',
+    path: '/dashboard/campaign',
+    icon: getIcon(emailOutlineAlerted)
+  },
+  {
     title: 'user',
     path: '/dashboard/user',
     icon: getIcon(peopleFill)
   },
-  {
-    title: 'product',
-    path: '/dashboard/products',
-    icon: getIcon(shoppingBagFill)
-  },
+  // {
+  //   title: 'product',
+  //   path: '/dashboard/products',
+  //   icon: getIcon(shoppingBagFill)
+  // },
   {
     title: 'blog',
     path: '/dashboard/blog',
@@ -47,11 +52,6 @@ const sidebarConfig = [
     title: 'register',
     path: '/register',
     icon: getIcon(personAddFill)
-  },
-  {
-    title: 'Send Campaign',
-    path: '/dashboard/campaign',
-    icon: getIcon(emailOutlineAlerted)
   },
   
   // {

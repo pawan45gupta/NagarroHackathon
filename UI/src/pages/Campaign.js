@@ -65,7 +65,7 @@ export default function Register() {
               Create Campaign.
             </Typography>
             <Typography sx={{ color: 'text.secondary' }}>
-              Free forever. No credit card needed.
+              Everything you need to get the attention of your audience
             </Typography>
           </Box>
 
