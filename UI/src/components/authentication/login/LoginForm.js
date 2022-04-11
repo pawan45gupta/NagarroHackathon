@@ -62,7 +62,8 @@ export default function LoginForm() {
 
       if(response && response?.data) {
         sessionStorage.setItem("user", JSON.stringify(response?.data));
-        navigate('/dashboard', { replace: true });
+        // navigate('/dashboard')
+       setTimeout(() =>  navigate('/dashboard'), 1000);
       }
     }
   });

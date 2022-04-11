@@ -9,24 +9,24 @@ import { BaseOptionChart } from '../../charts';
 const user = sessionStorage && JSON.parse(sessionStorage.getItem('user'));
 const websiteVisits = user?.websiteVisits;
 
-const googleVisits = websiteVisits.map(item => item.googleVisits);
-const facebookVisits = websiteVisits.map(item => item.facebookVisits);
-const youtubeVisits = websiteVisits.map(item => item.youtubeVisits);
+const googleVisits = websiteVisits?.map(item => item.googleVisits);
+const facebookVisits = websiteVisits?.map(item => item.facebookVisits);
+const youtubeVisits = websiteVisits?.map(item => item.youtubeVisits);
 const CHART_DATA = [
   {
     name: 'Google',
     type: 'column',
-    data: [...googleVisits]
+    data: googleVisits
   },
   {
     name: 'Facebook',
     type: 'area',
-    data: [...facebookVisits]
+    data: facebookVisits
   },
   {
     name: 'YouTube',
     type: 'line',
-    data: [...youtubeVisits]
+    data: youtubeVisits
   }
 ];
 
