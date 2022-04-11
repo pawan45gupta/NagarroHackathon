@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 // material
 import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { postCall } from 'src/utils/service';
 
 // ----------------------------------------------------------------------
 
@@ -22,7 +23,7 @@ export default function RegisterForm() {
       .required('First name required'),
     lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Last name required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required')
+    password: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('Password is required')
   });
 
   const formik = useFormik({
@@ -33,8 +34,17 @@ export default function RegisterForm() {
       password: ''
     },
     validationSchema: RegisterSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+    onSubmit: async (values) => {
+      const response = await postCall('/register', {
+          "firstName": values?.firstName,
+          "lastName": values?.lastName,
+          "email": values?.email,
+          "password": values?.password,
+          "isAdmin": "n"
+      })
+      if(response && response?.data) {
+        alert("User Registered Succcessfully");
+      }
     }
   });
 

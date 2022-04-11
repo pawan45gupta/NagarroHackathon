@@ -30,8 +30,13 @@ const ChartWrapperStyle = styled('div')(({ theme }) => ({
 }));
 
 // ----------------------------------------------------------------------
-
-const CHART_DATA = [4344, 5435, 1443, 4443];
+const user = sessionStorage && JSON.parse(sessionStorage.getItem('user'));
+const CHART_DATA = [
+  user?.currentVisits?.americaPercentage,
+  user?.currentVisits?.asiaPercentage,
+  user?.currentVisits?.europePercentage,
+  user?.currentVisits?.africaPercentage,
+]//[4344, 5435, 1443, 4443];
 
 export default function AppCurrentVisits() {
   const theme = useTheme();

@@ -6,22 +6,27 @@ import { Card, CardHeader, Box } from '@mui/material';
 import { BaseOptionChart } from '../../charts';
 
 // ----------------------------------------------------------------------
+const user = sessionStorage && JSON.parse(sessionStorage.getItem('user'));
+const websiteVisits = user?.websiteVisits;
 
+const googleVisits = websiteVisits.map(item => item.googleVisits);
+const facebookVisits = websiteVisits.map(item => item.facebookVisits);
+const youtubeVisits = websiteVisits.map(item => item.youtubeVisits);
 const CHART_DATA = [
   {
     name: 'Google',
     type: 'column',
-    data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30]
+    data: [...googleVisits]
   },
   {
     name: 'Facebook',
     type: 'area',
-    data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43]
+    data: [...facebookVisits]
   },
   {
     name: 'YouTube',
     type: 'line',
-    data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39]
+    data: [...youtubeVisits]
   }
 ];
 
@@ -60,7 +65,7 @@ export default function AppWebsiteVisits() {
 
   return (
     <Card>
-      <CardHeader title="Website Visits" subheader="(+43%) than last year" />
+      <CardHeader title="Website Visits" subheader={`(+${user?.conversionRates?.incrementConversionRateCompareToLastYear}%) than last year`}/>
       <Box sx={{ p: 3, pb: 1 }} dir="ltr">
         <ReactApexChart type="line" series={CHART_DATA} options={chartOptions} height={364} />
       </Box>

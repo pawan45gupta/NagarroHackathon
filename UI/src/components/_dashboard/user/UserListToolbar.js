@@ -45,7 +45,10 @@ UserListToolbar.propTypes = {
   onFilterName: PropTypes.func
 };
 
-export default function UserListToolbar({ numSelected, filterName, onFilterName }) {
+export default function UserListToolbar({ selected, handleDelete, numSelected, filterName, onFilterName }) {
+  // console.log("numSelected", selected, numSelected);
+
+  
   return (
     <RootStyle
       sx={{
@@ -74,16 +77,17 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName 
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={handleDelete}>
             <Icon icon={trash2Fill} />
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <Icon icon={roundFilterList} />
-          </IconButton>
-        </Tooltip>
+        <></>
+        // <Tooltip title="Filter list">
+        //   <IconButton>
+        //     <Icon icon={roundFilterList} />
+        //   </IconButton>
+        // </Tooltip>
       )}
     </RootStyle>
   );

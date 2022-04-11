@@ -34,18 +34,19 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 }));
 
 // ----------------------------------------------------------------------
-
-const TOTAL = 1352831;
+const user = sessionStorage && JSON.parse(sessionStorage.getItem('user'));
+const TOTAL = user?.userStatistics?.creditScore;
 
 export default function AppFraud() {
   return (
-    <RootStyle onClick={() => window.location.href = "/fraud-detection"}>
+    <RootStyle> 
+      {/* //onClick={() => window.location.href = "/fraud-detection"}> */}
       <IconWrapperStyle>
         <Icon icon={appleFilled} width={24} height={24} />
       </IconWrapperStyle>
       <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Frauds
+        Credit Score
       </Typography>
     </RootStyle>
   );

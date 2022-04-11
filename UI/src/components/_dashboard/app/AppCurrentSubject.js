@@ -30,11 +30,19 @@ const ChartWrapperStyle = styled('div')(({ theme }) => ({
 }));
 
 // ----------------------------------------------------------------------
-
+const user = sessionStorage && JSON.parse(sessionStorage.getItem('user'));
+const campaignOneClicks = [];
+const campaignTwoClicks = [];
+const campaignThreeClicks = [];
+for(let i = 0; i< user?.campaignClicks?.length; i++) {
+  campaignOneClicks.push(user?.campaignClicks[i]?.campaignOneClicks);
+  campaignTwoClicks.push(user?.campaignClicks[i]?.campaignTwoClicks);
+  campaignThreeClicks.push(user?.campaignClicks[i]?.campaignThreeClicks)
+}
 const CHART_DATA = [
-  { name: 'Campaign 1', data: [80, 50, 30, 40, 100, 20] },
-  { name: 'Campaign 2', data: [20, 30, 40, 80, 20, 80] },
-  { name: 'Campaign 3', data: [44, 76, 78, 13, 43, 10] }
+  { name: 'Campaign 1', data: campaignOneClicks},//[80, 50, 30, 40, 100, 20] },
+  { name: 'Campaign 2', data: campaignTwoClicks},//[20, 30, 40, 80, 20, 80] },
+  { name: 'Campaign 3', data: campaignThreeClicks}//[44, 76, 78, 13, 43, 10] }
 ];
 
 export default function AppCurrentSubject() {

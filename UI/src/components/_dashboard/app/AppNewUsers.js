@@ -33,8 +33,9 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 }));
 
 // ----------------------------------------------------------------------
-
-const TOTAL = 1352831;
+const user = sessionStorage && JSON.parse(sessionStorage.getItem('user'));
+const TOTAL = parseInt(user?.userStatistics?.newUsers);
+// const TOTAL = 1352831;
 
 export default function AppNewUsers() {
   return (

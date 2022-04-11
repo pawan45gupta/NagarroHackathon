@@ -91,32 +91,27 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             pt: 5,
             borderRadius: 2,
             position: 'relative',
-            bgcolor: 'grey.200'
+            bgcolor: 'white.200'
           }}
         >
-          <Box
+          {/* <Box
             component="img"
             src="/static/illustrations/illustration_avatar.png"
             sx={{ width: 100, position: 'absolute', top: -50 }}
-          />
+          /> */}
 
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography gutterBottom variant="h6">
-              Get more?
-            </Typography>
-            {/* <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              From only $69
-            </Typography> */}
-          </Box>
+          {/* <Box sx={{ textAlign: 'center' }}>
+            
+          </Box> */}
 
-          <Button
+          {/* <Button
             fullWidth
             href="https://material-ui.com/store/items/minimal-dashboard/"
             target="_blank"
             variant="contained"
           >
             Go to Main Site
-          </Button>
+          </Button> */}
         </Stack>
       </Box>
     </Scrollbar>

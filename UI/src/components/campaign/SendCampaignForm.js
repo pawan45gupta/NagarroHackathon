@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 // material
 import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { postCall } from 'src/utils/service';
 
 // ----------------------------------------------------------------------
 
@@ -33,9 +34,20 @@ export default function RegisterForm() {
       password: ''
     },
     validationSchema: RegisterSchema,
-    onSubmit: () => {
-      alert("Email Sent Successfully")
-      navigate('/dashboard', { replace: true });
+    onSubmit: async (values) => {
+      const response = await postCall('/dashboard/campaign', {
+        "toEmail": values?.email,
+         "emailSubject": values?.firstName,
+        "emailBody": values?.lastName
+      } )
+      console.log("campaign response", response);
+      if(response) {
+        alert("Email Sent Successfully");
+        // navigate('/dashboard', { replace: true });
+      } else {
+        alert("Something went wrong, Please try again with valid input");
+      }
+      
     }
   });
 

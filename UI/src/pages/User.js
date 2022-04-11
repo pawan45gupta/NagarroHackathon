@@ -1,11 +1,12 @@
 import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
+  Box,
   Card,
   Table,
   Stack,
@@ -15,10 +16,12 @@ import {
   TableRow,
   TableBody,
   TableCell,
+  TextField,
   Container,
   Typography,
   TableContainer,
-  TablePagination
+  TablePagination,
+  Modal,
 } from '@mui/material';
 // components
 import Page from '../components/Page';
@@ -27,7 +30,11 @@ import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/user';
 //
-import USERLIST from '../_mocks_/user';
+import {getUsers} from '../_mocks_/user';
+import { deleteCall, postCall, putCall } from 'src/utils/service';
+import { useFormik, Form, FormikProvider } from 'formik';
+import * as Yup from 'yup';
+import { LoadingButton } from '@mui/lab';
 
 // ----------------------------------------------------------------------
 
@@ -78,6 +85,91 @@ export default function User() {
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [USERLIST, setUSERLIST] = useState([]);
+  const [formType, setFormType] = useState('create');
+  const [open, setOpen] = useState(false);
+  const [idUpdated, setIdUpdated] = useState();
+  const handleOpen = () => {
+    setFormType('create');
+    setOpen(true);
+    resetForm();
+
+  };
+  const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await getUsers();
+      setUSERLIST(response);
+    }
+    fetchData();
+    
+  }, [selected, USERLIST]);
+
+  useEffect(() => {
+    if(open && formType === 'update' && idUpdated) {
+      const {name, company, role, isVerified, status} = USERLIST.filter(value => value.id === idUpdated)[0]
+      console.log("filter", USERLIST.filter(value => value.id === idUpdated));
+      // setTimeout(() => {
+        setFieldValue("name", name);
+        setFieldValue("company", company);
+        setFieldValue("role", role);
+        setFieldValue("verified", isVerified);
+        setFieldValue("status", status);
+      // } ,1000);
+    }
+  } , [open, formType, idUpdated]);
+
+  const ValidationSchema = Yup.object().shape({
+    name: Yup.string().required('Name is required'),
+    company: Yup.string().required('Company is required'),
+    role: Yup.string().required('Role is required'),
+    verified: Yup.string().oneOf(['Yes', 'No']).required('Verified is required'),
+    status: Yup.string().oneOf(['Not active', 'Active']).required('Status is required'),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      company: '',
+      role: '',
+      verified: '',
+      status: '',
+    },
+    validationSchema: ValidationSchema,
+    onSubmit: async (values, { resetForm }) => {
+      if(formType === 'create') {
+        await postCall('/dashboard/user/create', {
+          "name": values?.name,
+          "company": values?.company,
+          "role": values?.role,
+          "verified": values?.verified,
+          "status": values?.status,
+        })
+      } else {
+        await putCall(`/dashboard/user/edit/${idUpdated}`, {
+          "name": values?.name,
+          "company": values?.company,
+          "role": values?.role,
+          "verified": values?.verified,
+          "status": values?.status,
+        })
+      }
+      setUSERLIST(USERLIST.concat(
+        {
+          "id": "99392993",
+          "name": values?.name,
+          "company": values?.company,
+          "role": values?.role,
+          "verified": values?.verified,
+          "status": values?.status,
+        }
+      ));
+      handleClose();
+    }
+  });
+
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps, setFieldValue, resetForm } = formik;
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -87,18 +179,18 @@ export default function User() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = USERLIST.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
     let newSelected = [];
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -131,6 +223,38 @@ export default function User() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
+  const handleDelete = async () => {
+    if(selected && selected.length > 0) {
+      for(let i = 0; i < selected.length; i++) {
+        await deleteCall(`/dashboard/user/delete/${selected[i]}`);
+      }
+    }
+    setSelected([]);
+  }
+
+  const handleSingleDelete = async (id) => {
+    await deleteCall(`/dashboard/user/delete/${id}`);
+    setSelected(selected.filter(item => item !== id));
+  }
+
+  const handleSingleUpdate = (id) => {
+    setFormType('update');
+    setIdUpdated(id);
+    setOpen(true);
+  }
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+
   return (
     <Page title="User | Minimal-UI">
       <Container>
@@ -142,14 +266,89 @@ export default function User() {
             variant="contained"
             component={RouterLink}
             to="#"
+            onClick={handleOpen}
             startIcon={<Icon icon={plusFill} />}
           >
             New User
           </Button>
         </Stack>
+        <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+         <FormikProvider value={formik}>
+      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+        <Box sx={style}>
+        <TextField
+            fullWidth
+            // autoComplete="name"
+            type="text"
+            label="Name"
+            sx={{my: 2}}
+            {...getFieldProps('name')}
+            error={Boolean(touched.name && errors.name)}
+            helperText={touched.name && errors.name}
+          />
+          <TextField
+            fullWidth
+            // autoComplete="company"
+            type="text"
+            label="Company"
+            sx={{my: 2}}
+            {...getFieldProps('company')}
+            error={Boolean(touched.company && errors.company)}
+            helperText={touched.company && errors.company}
+          />
+          <TextField
+            fullWidth
+            // autoComplete="role"
+            type="text"
+            label="Role"
+            sx={{my: 2}}
+            {...getFieldProps('role')}
+            error={Boolean(touched.role && errors.role)}
+            helperText={touched.role && errors.role}
+          />
+          <TextField
+            fullWidth
+            // autoComplete="verified"
+            type="text"
+            label="Verified"
+            sx={{my: 2}}
+            {...getFieldProps('verified')}
+            error={Boolean(touched.verified && errors.verified)}
+            helperText={touched.verified && errors.verified}
+          />
+          <TextField
+            fullWidth
+            // autoComplete="status"
+            type="text"
+            label="Status"
+            sx={{my: 2}}
+            {...getFieldProps('status')}
+            error={Boolean(touched.status && errors.status)}
+            helperText={touched.status && errors.status}
+          />
+          <LoadingButton
+          fullWidth
+          size="large"
+          type="submit"
+          variant="contained"
+          loading={isSubmitting}
+        >
+          {formType === 'create' ? 'Create' : 'Update'}
+        </LoadingButton>
+        </Box>
+        </Form>
+        </FormikProvider>
+      </Modal>
 
         <Card>
           <UserListToolbar
+            selected={selected}
+            handleDelete={handleDelete}
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
@@ -172,7 +371,7 @@ export default function User() {
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
                       const { id, name, role, status, company, avatarUrl, isVerified } = row;
-                      const isItemSelected = selected.indexOf(name) !== -1;
+                      const isItemSelected = selected.indexOf(id) !== -1;
 
                       return (
                         <TableRow
@@ -186,7 +385,7 @@ export default function User() {
                           <TableCell padding="checkbox">
                             <Checkbox
                               checked={isItemSelected}
-                              onChange={(event) => handleClick(event, name)}
+                              onChange={(event) => handleClick(event, id)}
                             />
                           </TableCell>
                           <TableCell component="th" scope="row" padding="none">
@@ -203,14 +402,14 @@ export default function User() {
                           <TableCell align="left">
                             <Label
                               variant="ghost"
-                              color={(status === 'banned' && 'error') || 'success'}
+                              color={(status === 'Not active' && 'error') || 'success'}
                             >
                               {sentenceCase(status)}
                             </Label>
                           </TableCell>
 
                           <TableCell align="right">
-                            <UserMoreMenu />
+                            <UserMoreMenu id={id} handleSingleDelete={handleSingleDelete} handleSingleUpdate={handleSingleUpdate}/>
                           </TableCell>
                         </TableRow>
                       );

@@ -156,13 +156,20 @@ NavSection.propTypes = {
 export default function NavSection({ navConfig, ...other }) {
   const { pathname } = useLocation();
   const match = (path) => (path ? !!matchPath({ path, end: false }, pathname) : false);
+  const user = sessionStorage && JSON.parse(sessionStorage.getItem('user'));
+  console.log("NAV section", user );
 
   return (
     <Box {...other}>
       <List disablePadding>
-        {navConfig.map((item) => (
-          <NavItem key={item.title} item={item} active={match} />
-        ))}
+        {navConfig.map((item) => {
+ console.log("fraud users section", (item.title === 'Fraud Users' || item.title === 'Register') && user && user?.isAdmin !== 'y')
+          if((item.title === 'Fraud Users' || item.title === 'Register') && user && user?.isAdmin !== 'y') {
+           return null
+          } else {
+          return <NavItem key={item.title} item={item} active={match} />
+          }
+})}
       </List>
     </Box>
   );

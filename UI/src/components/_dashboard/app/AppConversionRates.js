@@ -8,8 +8,31 @@ import { fNumber } from '../../../utils/formatNumber';
 import { BaseOptionChart } from '../../charts';
 
 // ----------------------------------------------------------------------
-
-const CHART_DATA = [{ data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380] }];
+const user = sessionStorage && JSON.parse(sessionStorage.getItem('user'));
+// canadaConversionRate: 666
+// chinaConversionRate: 639
+// conversionRatesId: 2
+// franceConversionRate: 737
+// germanyConversionRate: 771
+// incrementConversionRateCompareToLastYear: 29
+// italyConversionRate: 528
+// japanConversionRate: 556
+// netherlandsConversionRate: 972
+// southKoreaConversionRate: 895
+// unitedKingdomConversionRate: 1175
+// unitedStatesConversionRate: 1062
+const CHART_DATA = [{ data: [
+  user?.conversionRates?.italyConversionRate,
+  user?.conversionRates?.japanConversionRate,
+  user?.conversionRates?.chinaConversionRate,
+  user?.conversionRates?.canadaConversionRate,
+  user?.conversionRates?.franceConversionRate,
+  user?.conversionRates?.germanyConversionRate,
+  user?.conversionRates?.southKoreaConversionRate,
+  user?.conversionRates?.netherlandsConversionRate,
+  user?.conversionRates?.unitedStatesConversionRate,
+  user?.conversionRates?.unitedKingdomConversionRate,
+]}];
 
 export default function AppConversionRates() {
   const chartOptions = merge(BaseOptionChart(), {

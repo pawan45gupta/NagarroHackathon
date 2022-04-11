@@ -18,19 +18,19 @@ const sidebarConfig = [
     path: '/dashboard/app',
     icon: getIcon(pieChart2Fill)
   },
-  {
-    title: 'Fraud Detection',
-    path: '/fraud-detection',
-    icon: getIcon(alertTriangleFill)
-  },
+  // {
+  //   title: 'Fraud Detection',
+  //   path: '/fraud-detection',
+  //   icon: getIcon(alertTriangleFill)
+  // },
   {
     title: 'Send Campaign',
     path: '/dashboard/campaign',
     icon: getIcon(emailOutlineAlerted)
   },
   {
-    title: 'user',
-    path: '/dashboard/user',
+    title: 'Fraud Users',
+    path: '/dashboard/fraudUser',
     icon: getIcon(peopleFill)
   },
   // {
@@ -38,18 +38,18 @@ const sidebarConfig = [
   //   path: '/dashboard/products',
   //   icon: getIcon(shoppingBagFill)
   // },
+  // {
+  //   title: 'blog',
+  //   path: '/dashboard/blog',
+  //   icon: getIcon(fileTextFill)
+  // },
+  // {
+  //   title: 'login',
+  //   path: '/login',
+  //   icon: getIcon(lockFill)
+  // },
   {
-    title: 'blog',
-    path: '/dashboard/blog',
-    icon: getIcon(fileTextFill)
-  },
-  {
-    title: 'login',
-    path: '/login',
-    icon: getIcon(lockFill)
-  },
-  {
-    title: 'register',
+    title: 'Register',
     path: '/register',
     icon: getIcon(personAddFill)
   },

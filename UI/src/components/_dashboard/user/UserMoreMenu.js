@@ -9,7 +9,7 @@ import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/mat
 
 // ----------------------------------------------------------------------
 
-export default function UserMoreMenu() {
+export default function UserMoreMenu({id, handleSingleDelete, handleSingleUpdate}) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -29,14 +29,14 @@ export default function UserMoreMenu() {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem sx={{ color: 'text.secondary' }}>
+        <MenuItem sx={{ color: 'text.secondary' }} onClick={() => handleSingleDelete(id)}>
           <ListItemIcon>
             <Icon icon={trash2Outline} width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
+        <MenuItem sx={{ color: 'text.secondary' }} onClick={() => handleSingleUpdate(id)}>
           <ListItemIcon>
             <Icon icon={editFill} width={24} height={24} />
           </ListItemIcon>

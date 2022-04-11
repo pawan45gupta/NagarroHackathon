@@ -23,7 +23,7 @@ export default function Router() {
       children: [
         { element: <Navigate to="/dashboard/app" replace /> },
         { path: 'app', element: <DashboardApp /> },
-        { path: 'user', element: <User /> },
+        { path: 'fraudUser', element: <User /> },
         { path: 'Campaign', element: <Campaign /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> }
@@ -33,6 +33,7 @@ export default function Router() {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
+        {element: <Navigate to="/login" replace />},
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
@@ -41,6 +42,6 @@ export default function Router() {
         { path: '*', element: <Navigate to="/404" /> }
       ]
     },
-    // { path: '*', element: <Navigate to="/404" replace /> }
+    { path: '*', element: <Navigate to="/404" replace /> }
   ]);
 }
