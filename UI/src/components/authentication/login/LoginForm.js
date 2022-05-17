@@ -20,7 +20,7 @@ import {
   Typography,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { sentenceToAscii, postCall, getCall } from 'src/utils/service';
+import {postCall, getCall } from 'src/utils/service';
 
 // ----------------------------------------------------------------------
 
@@ -44,7 +44,7 @@ export default function LoginForm() {
     },
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
-      console.log("password", sentenceToAscii("yogesh"));
+      // console.log("password", sentenceToAscii("yogesh"));
     //   {
     //     "id": 5,
     //     "firstName": "Pawan",
@@ -54,16 +54,15 @@ export default function LoginForm() {
     //     "isAdmin": "y"
     // }
       const response = await postCall('/login', {
-        "email": sentenceToAscii(values?.email),
-        "password": sentenceToAscii(values?.password),
+        "email": values?.email,
+        "password": values?.password,
       });
 
       console.log("data received", response)
 
       if(response && response?.data) {
-        sessionStorage.setItem("user", JSON.stringify(response?.data));
-        // navigate('/dashboard')
-       setTimeout(() =>  navigate('/dashboard'), 1000);
+       await sessionStorage.setItem("user", JSON.stringify(response?.data));
+       navigate('/dashboard', { replace: true });
       }
     }
   });

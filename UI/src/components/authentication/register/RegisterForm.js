@@ -4,16 +4,16 @@ import { Icon } from '@iconify/react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
-import { useNavigate } from 'react-router-dom';
 // material
 import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { postCall } from 'src/utils/service';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
 
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const RegisterSchema = Yup.object().shape({
@@ -43,12 +43,30 @@ export default function RegisterForm() {
           "isAdmin": "n"
       })
       if(response && response?.data) {
-        alert("User Registered Succcessfully");
+        setOpen(true);
+        setTimeout(() => setOpen(false), 2000);
       }
     }
   });
 
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
+  const [open, setOpen] = useState(false);
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 800,
+    bgcolor: '#00AB55',
+    border: '2px solid #000',
+    boxShadow: 24,
+    pt: 2,
+    px: 4,
+    pb: 3,
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <FormikProvider value={formik}>
@@ -108,8 +126,19 @@ export default function RegisterForm() {
             variant="contained"
             loading={isSubmitting}
           >
-            Register
+            Register User
           </LoadingButton>
+          <Modal
+        hideBackdrop
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="child-modal-title"
+        aria-describedby="child-modal-description"
+      >
+        <Box sx={{ ...style, width: 200 }}>
+          <h2 id="child-modal-title">User Registered Successfully</h2>
+        </Box>
+      </Modal>
         </Stack>
       </Form>
     </FormikProvider>

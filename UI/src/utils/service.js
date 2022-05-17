@@ -2,14 +2,14 @@ import axios from "axios";
 
 const BASE_URL = "https://nagarro-qa-hackathon.herokuapp.com";
 
-export const sentenceToAscii = (str) => {
-  let encodedPassword = "";
-    for(let index = 0; index < str.length; index++) {
-        encodedPassword += str.charCodeAt(index);
-    }
-    console.log("encoded password is : " + encodedPassword);
-    return encodedPassword;
-}
+// export const sentenceToAscii = (str) => {
+//   let encodedPassword = "";
+//     for(let index = 0; index < str.length; index++) {
+//         encodedPassword += str.charCodeAt(index);
+//     }
+//     console.log("encoded password is : " + encodedPassword);
+//     return encodedPassword;
+// }
 
 // export const asciiToSentence = (str) => {
 //     var num = 0;
