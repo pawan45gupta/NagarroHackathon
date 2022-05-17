@@ -62,7 +62,8 @@ export default function LoginForm() {
 
       if(response && response?.data) {
        await sessionStorage.setItem("user", JSON.stringify(response?.data));
-       navigate('/dashboard/app', {replace: true});
+       window.location.href = '/dashboard';
+      //  navigate('/dashboard/app', {replace: true});
       }
     }
   });
