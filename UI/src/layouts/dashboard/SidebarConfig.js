@@ -49,7 +49,7 @@ const sidebarConfig = [
   //   icon: getIcon(lockFill)
   // },
   {
-    title: 'Register',
+    title: 'Register a user/Customer',
     path: '/register',
     icon: getIcon(personAddFill)
   },

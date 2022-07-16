@@ -60,6 +60,7 @@ export default function RegisterForm() {
     bgcolor: '#00AB55',
     border: '2px solid #000',
     boxShadow: 24,
+    borderRadius: 4,
     pt: 2,
     px: 4,
     pb: 3,
@@ -136,7 +137,7 @@ export default function RegisterForm() {
         aria-describedby="child-modal-description"
       >
         <Box sx={{ ...style, width: 200 }}>
-          <h2 id="child-modal-title">User Registered Successfully</h2>
+          <h2 id="child-modal-title">Thank You for registering user</h2>
         </Box>
       </Modal>
         </Stack>
